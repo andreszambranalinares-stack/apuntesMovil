@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Java Battle Arena - Mobile</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="flex flex-col h-screen overflow-hidden text-slate-200 select-none">
+
+    <header
+        class="glass-panel sticky top-0 z-40 px-4 py-3 border-b border-white/10 flex justify-between items-center bg-gray-900/80 backdrop-blur-md">
+        <div class="flex items-center gap-3">
+            <i class="fa-brands fa-java text-3xl text-orange-500 animate-pulse"></i>
+            <div>
+                <h1
+                    class="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-pink-500 leading-none">
+                    JAVA ARENA
+                </h1>
+                <span class="text-[10px] text-gray-400 uppercase tracking-widest">v3.0 Mobile</span>
+            </div>
+        </div>
+        <div class="md:hidden text-xs text-gray-500 font-mono">1º DAM</div>
+    </header>
+
+    <main class="flex-grow container mx-auto p-4 overflow-y-auto pb-28 no-scrollbar">
+
+        <section id="section-theory" class="fade-in hidden">
+            <h2 class="section-title border-blue-500 text-blue-300 text-xl md:text-2xl">Resumen Teórico</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="theory-container">
+            </div>
+        </section>
+
+        <section id="section-dictionary" class="fade-in hidden">
+            <h2 class="section-title border-yellow-500 text-yellow-300 text-xl md:text-2xl">Diccionario</h2>
+            <div class="sticky top-0 z-30 py-2 bg-[#0b0f19]/80 backdrop-blur-sm mb-4">
+                <div class="relative">
+                    <i class="fa-solid fa-search absolute left-4 top-3.5 text-gray-400"></i>
+                    <input type="text" id="dict-search" placeholder="Buscar término..."
+                        class="w-full bg-gray-800/80 border border-gray-600 rounded-xl py-3 pl-12 pr-4 text-white focus:outline-none focus:border-yellow-400 transition-colors text-sm">
+                </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3" id="dictionary-container"></div>
+        </section>
+
+        <section id="section-practice" class="fade-in hidden">
+            <h2 class="section-title border-green-500 text-green-300 text-xl md:text-2xl">Dojo (Sintaxis)</h2>
+
+            <div class="glass-panel p-4 md:p-8 rounded-xl mt-4 relative">
+                <div class="flex justify-between items-center mb-4">
+                    <span class="text-xs uppercase font-bold text-gray-400">Reto Código</span>
+                    <span id="practice-counter"
+                        class="bg-gray-800 px-2 py-1 rounded text-xs font-mono text-cyan-400"></span>
+                </div>
+
+                <div class="bg-gray-900 rounded-lg p-4 mb-4 border border-gray-700 shadow-inner overflow-x-auto">
+                    <pre class="code-font text-sm text-gray-300 whitespace-pre-wrap min-h-[60px] flex items-center"
+                        id="practice-code"></pre>
+                </div>
+
+                <div class="flex flex-col gap-3">
+                    <input type="text" id="practice-input" placeholder="Tu respuesta..." autocomplete="off"
+                        class="bg-gray-800/50 border border-gray-600 text-white p-4 rounded-xl focus:outline-none focus:border-blue-500 code-font text-lg text-center shadow-lg">
+
+                    <button onclick="app.checkPractice()"
+                        class="bg-blue-600 active:bg-blue-700 text-white font-bold py-4 rounded-xl shadow-lg shadow-blue-600/20 touch-manipulation transition-transform active:scale-95">
+                        COMPROBAR
+                    </button>
+                </div>
+
+                <div id="practice-feedback"
+                    class="mt-4 text-center font-bold h-6 transition-all duration-300 opacity-0 text-sm"></div>
+
+                <div class="mt-4 flex justify-center">
+                    <button onclick="app.nextPractice()"
+                        class="text-gray-400 hover:text-white py-2 px-4 rounded-full border border-white/10 text-sm flex items-center gap-2">
+                        Saltar <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <section id="section-exam-menu" class="fade-in hidden">
+            <div class="text-center mb-6 mt-4">
+                <h2 class="text-3xl font-extrabold text-white">EXAMEN</h2>
+                <p class="text-xs text-gray-400 uppercase tracking-widest">Selecciona Dificultad</p>
+            </div>
+
+            <div class="grid grid-cols-1 gap-4">
+                <button onclick="app.startExam('poo')" class="exam-card border-l-4 border-blue-500">
+                    <div class="flex items-center gap-4">
+                        <div class="bg-blue-500/20 p-3 rounded-lg"><i
+                                class="fa-solid fa-cubes text-xl text-blue-400"></i></div>
+                        <div class="text-left">
+                            <h3 class="font-bold text-white">POO Pura</h3>
+                            <p class="text-xs text-gray-400">Clases, Objetos, This</p>
+                        </div>
+                    </div>
+                </button>
+
+                <button onclick="app.startExam('methods')" class="exam-card border-l-4 border-teal-500">
+                    <div class="flex items-center gap-4">
+                        <div class="bg-teal-500/20 p-3 rounded-lg"><i
+                                class="fa-solid fa-gears text-xl text-teal-400"></i></div>
+                        <div class="text-left">
+                            <h3 class="font-bold text-white">Métodos</h3>
+                            <p class="text-xs text-gray-400">Sobrecarga, Return</p>
+                        </div>
+                    </div>
+                </button>
+
+                <button onclick="app.startExam('flow')" class="exam-card border-l-4 border-purple-500">
+                    <div class="flex items-center gap-4">
+                        <div class="bg-purple-500/20 p-3 rounded-lg"><i
+                                class="fa-solid fa-code-branch text-xl text-purple-400"></i></div>
+                        <div class="text-left">
+                            <h3 class="font-bold text-white">Flujo</h3>
+                            <p class="text-xs text-gray-400">If, Switch, Loops</p>
+                        </div>
+                    </div>
+                </button>
+
+                <button onclick="app.startExam('hell')"
+                    class="exam-card border-l-4 border-red-600 bg-gradient-to-r from-red-900/20 to-transparent">
+                    <div class="flex items-center gap-4">
+                        <div class="bg-red-500/20 p-3 rounded-lg"><i
+                                class="fa-solid fa-fire text-xl text-red-500 animate-pulse"></i></div>
+                        <div class="text-left">
+                            <h3 class="font-bold text-red-400">MODO INFIERNO</h3>
+                            <p class="text-xs text-gray-400">Trampas y Excepciones</p>
+                        </div>
+                    </div>
+                </button>
+
+                <button onclick="app.startExam('global')"
+                    class="p-4 rounded-xl bg-yellow-600/20 border border-yellow-500/50 text-yellow-300 font-bold mt-2 active:scale-95 transition-transform">
+                    <i class="fa-solid fa-play mr-2"></i> EXAMEN GLOBAL
+                </button>
+            </div>
+        </section>
+
+        <section id="section-exam-interface" class="fade-in hidden h-full flex flex-col">
+            <div class="flex justify-between items-center mb-4 bg-gray-800/50 p-3 rounded-xl border border-white/5">
+                <button onclick="app.exitExam()"
+                    class="text-red-400 text-xs font-bold px-3 py-2 bg-red-500/10 rounded-lg">
+                    <i class="fa-solid fa-xmark"></i> SALIR
+                </button>
+                <div class="font-mono text-xl text-blue-400 font-bold" id="exam-timer">00:00</div>
+                <div class="text-xs text-gray-400 font-bold"><span id="q-current"
+                        class="text-white text-lg">1</span>/<span id="q-total">20</span></div>
+            </div>
+
+            <div class="w-full bg-gray-800 rounded-full h-1.5 mb-6 overflow-hidden">
+                <div id="exam-progress"
+                    class="bg-gradient-to-r from-blue-500 to-purple-500 h-full transition-all duration-300"
+                    style="width: 0%"></div>
+            </div>
+
+            <div class="glass-panel p-5 rounded-2xl flex-grow flex flex-col relative shadow-xl overflow-y-auto">
+                <span id="q-category-badge"
+                    class="inline-block px-2 py-1 bg-gray-800 rounded text-[10px] uppercase font-bold tracking-wider text-gray-400 mb-3 w-fit border border-gray-700"></span>
+
+                <h3 id="q-text" class="text-lg font-medium text-white mb-4 leading-snug"></h3>
+
+                <div id="q-code-container" class="mb-4 bg-gray-950 p-3 rounded-lg border border-gray-800 hidden">
+                    <pre id="q-code-block" class="code-font text-xs text-yellow-100 overflow-x-auto"></pre>
+                </div>
+
+                <div id="q-options" class="grid grid-cols-1 gap-3 mb-20"> </div>
+            </div>
+
+            <div id="exam-nav"
+                class="fixed bottom-24 left-4 right-4 bg-[#1a1625] border border-white/10 p-3 rounded-xl shadow-2xl flex justify-between items-center opacity-0 pointer-events-none transition-all duration-300 z-50">
+                <div id="feedback-msg" class="font-bold text-sm"></div>
+                <button onclick="app.nextExamQuestion()"
+                    class="bg-white text-gray-900 px-6 py-3 rounded-lg font-bold text-sm shadow-lg active:scale-95 transition-transform">
+                    Siguiente <i class="fa-solid fa-chevron-right ml-1"></i>
+                </button>
+            </div>
+        </section>
+
+        <section id="section-exam-results" class="fade-in hidden text-center pt-10">
+            <div class="glass-panel p-6 rounded-2xl mx-auto border-t-4 border-purple-500 relative">
+                <div
+                    class="absolute -top-10 left-1/2 transform -translate-x-1/2 bg-gray-900 p-4 rounded-full border border-purple-500 shadow-xl">
+                    <i class="fa-solid fa-trophy text-4xl text-yellow-400"></i>
+                </div>
+
+                <h2 class="text-2xl font-bold text-white mt-8 mb-6">Resumen</h2>
+
+                <div class="grid grid-cols-2 gap-4 mb-6">
+                    <div class="bg-gray-800/50 p-4 rounded-xl">
+                        <div class="text-3xl font-bold text-blue-400" id="result-score">0%</div>
+                        <div class="text-[10px] uppercase text-gray-500">Aciertos</div>
+                    </div>
+                    <div class="bg-gray-800/50 p-4 rounded-xl">
+                        <div class="text-xl font-bold text-white mt-1" id="result-time">00:00</div>
+                        <div class="text-[10px] uppercase text-gray-500">Tiempo</div>
+                    </div>
+                </div>
+
+                <div class="text-left bg-black/20 rounded-lg p-4 mb-6 max-h-48 overflow-y-auto border border-white/5">
+                    <h3 class="text-red-400 font-bold text-xs mb-2 uppercase tracking-wider">Errores:</h3>
+                    <ul id="result-mistakes" class="space-y-3 text-xs"></ul>
+                    <div id="no-mistakes-msg" class="hidden text-green-400 text-center text-sm">¡Impecable! 🎉</div>
+                </div>
+
+                <div class="flex flex-col gap-3">
+                    <button onclick="app.retryExam()"
+                        class="w-full py-3 rounded-xl bg-blue-600 text-white font-bold shadow-lg active:scale-95 transition-transform">
+                        Repetir Examen
+                    </button>
+                    <button onclick="app.switchTab('exam')"
+                        class="w-full py-3 rounded-xl border border-gray-600 text-gray-400 hover:text-white text-sm">
+                        Volver al Menú
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <nav
+        class="fixed bottom-0 left-0 w-full glass-panel border-t border-white/10 z-50 pb-safe pt-2 bg-[#0f172a]/95 backdrop-blur-xl">
+        <div class="flex justify-around items-center h-16 px-2">
+            <button onclick="app.switchTab('theory')" id="btn-theory"
+                class="nav-btn flex flex-col items-center gap-1 w-16 text-gray-400 transition-colors">
+                <i class="fa-solid fa-book-open text-xl mb-0.5"></i>
+                <span class="text-[10px] font-medium">Teoría</span>
+            </button>
+
+            <button onclick="app.switchTab('dictionary')" id="btn-dictionary"
+                class="nav-btn flex flex-col items-center gap-1 w-16 text-gray-400 transition-colors">
+                <i class="fa-solid fa-search text-xl mb-0.5"></i>
+                <span class="text-[10px] font-medium">Dict</span>
+            </button>
+
+            <button onclick="app.switchTab('practice')" id="btn-practice"
+                class="nav-btn relative -top-5 bg-blue-600 text-white rounded-full w-14 h-14 flex items-center justify-center shadow-lg shadow-blue-600/40 border-4 border-[#0f172a]">
+                <i class="fa-solid fa-keyboard text-xl"></i>
+            </button>
+
+            <button onclick="app.switchTab('exam')" id="btn-exam"
+                class="nav-btn flex flex-col items-center gap-1 w-16 text-gray-400 transition-colors">
+                <i class="fa-solid fa-skull text-xl mb-0.5"></i>
+                <span class="text-[10px] font-medium">Test</span>
+            </button>
+
+            <button onclick="app.downloadQuestions()"
+                class="nav-btn flex flex-col items-center gap-1 w-16 text-gray-400 transition-colors">
+                <i class="fa-solid fa-download text-xl mb-0.5"></i>
+                <span class="text-[10px] font-medium">Save</span>
+            </button>
+        </div>
+    </nav>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
